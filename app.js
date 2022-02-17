@@ -1,14 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors')
+require('dotenv').config();
 const {graphqlHTTP} = require('express-graphql');
-const schema = require('./schema/schema')
+const cors = require('cors');
+const schema = require('./schema/schema');
 
 const app = express();
 
-
 // connect to database
-mongoose.connect("mongodb+srv://admin:tVGOLZJLyx9hlwZl@cafeapp.ixgr5.mongodb.net/graphql");
+mongoose.connect(process.env.MOONGO_DB_URI);
 mongoose.connection.once('open', () => {
     console.log('connected to database');
 });
@@ -20,7 +20,7 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true
 }));
 
-app.listen(4000, () => {
-    console.log("Server running at port 4000.");
+app.listen(process.env.SERVER_PORT, () => {
+    console.log(`Server running at port ${process.env.SERVER_PORT}.`);
 });
 
